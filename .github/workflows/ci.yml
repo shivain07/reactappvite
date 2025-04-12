@@ -18,8 +18,13 @@ jobs:
                 node-version: '20'
             - run: npm i
             - run: npm run build
-            - run: npm install -g serve
-            - run: serve -s dist -l 3000
+            - run: pm2 delete reactappvite || true  # stop old process if running
+            - run: pm2 start serve --name "reactappvite" -- -s dist -l 3000
+            - run: pm2 save
+            - name: Health check
+              run: |
+                sleep 5  # give it a moment to start up
+                curl --fail http://localhost:3000 || (echo "Health check failed!" && exit 1)
 
 
 
