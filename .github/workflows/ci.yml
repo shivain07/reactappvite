@@ -9,7 +9,7 @@ on:
 jobs:
 
     build-setup:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
             - uses: actions/checkout@v4
             - run: ls
@@ -18,4 +18,8 @@ jobs:
                 node-version: '20'
             - run: npm i
             - run: npm run build
+            - run: npm install -g serve
+            - run: serve -s dist -l 3000
+
+
 
